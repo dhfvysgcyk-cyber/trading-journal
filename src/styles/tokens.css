@@ -26,13 +26,10 @@
 
 /* Background lives on <html> (not position:fixed) so it stays visible through
    iOS Safari's rubber-band overscroll, which unreliably renders fixed
-   backgrounds when the dynamic toolbar collapses. Darkening gradient sits on
-   top of the image so text/glass cards keep enough contrast; image is
-   grayscale to match the black/gray/white theme. */
+   backgrounds when the dynamic toolbar collapses. No darkening overlay -
+   the image is already near-black, used as-is. */
 html {
-  background:
-    linear-gradient(180deg, rgba(10, 10, 10, 0.55), rgba(10, 10, 10, 0.82)),
-    url(../assets/background.jpg) center / cover no-repeat;
+  background: url(../assets/background.png) center / cover no-repeat;
   background-color: var(--bg);
 }
 
