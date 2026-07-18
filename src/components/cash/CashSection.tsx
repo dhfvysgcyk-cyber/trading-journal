@@ -3,6 +3,7 @@ import { deleteCashTransaction, fetchCashTransactions, insertCashTransaction } f
 import { CashForm } from './CashForm'
 import { Modal } from '../ui/Modal'
 import { EmptyState } from '../ui/EmptyState'
+import { TrashIcon } from '../ui/icons'
 import { fmtDate, fmtEuro, pnlClass } from '../../lib/format'
 import type { AccountType, CashTransaction, CashTransactionInput } from '../../types/domain'
 
@@ -40,42 +41,49 @@ export function CashSection({ account }: { account: AccountType }) {
   }
 
   return (
-    <div className="card cash-section">
-      <div className="page-header">
-        <h2 className="section-title" style={{ margin: 0 }}>{ACCOUNT_LABEL[account]}</h2>
-        <button type="button" className="btn" onClick={() => setShowForm(true)}>+ Buchung</button>
-      </div>
-
-      <div className="cash-net-row">
-        <span>Netto-Einzahlungen</span>
-        <strong className={pnlClass(netCash)}>{fmtEuro(netCash)}</strong>
-      </div>
-
-      {loading ? (
-        <div className="loading-screen">Lade…</div>
-      ) : transactions.length === 0 ? (
-        <EmptyState text="Noch keine Ein-/Auszahlungen erfasst." />
-      ) : (
-        <div className="cash-list">
-          {transactions.map((t) => (
-            <div key={t.id} className="cash-row">
-              <span>{fmtDate(t.occurred_at)}</span>
-              <span className="account-badge">{t.type === 'deposit' ? 'Einzahlung' : 'Auszahlung'}</span>
-              <span className="cash-note">{t.note ?? ''}</span>
-              <strong className={pnlClass(t.type === 'deposit' ? t.amount : -t.amount)}>
-                {t.type === 'deposit' ? '+' : '-'}{fmtEuro(t.amount)}
-              </strong>
-              <button type="button" className="btn btn-secondary cash-delete-btn" onClick={() => handleDelete(t)}>Löschen</button>
-            </div>
-          ))}
+    // Modal must live outside the .card element below: .card has backdrop-filter,
+    // which creates a new containing block for position:fixed descendants and
+    // would clip the modal to the card's box instead of the full viewport.
+    <>
+      <div className="card cash-section">
+        <div className="page-header">
+          <h2 className="section-title" style={{ margin: 0 }}>{ACCOUNT_LABEL[account]}</h2>
+          <button type="button" className="btn" onClick={() => setShowForm(true)}>+ Buchung</button>
         </div>
-      )}
+
+        <div className="cash-net-row">
+          <span>Netto-Einzahlungen</span>
+          <strong className={pnlClass(netCash)}>{fmtEuro(netCash)}</strong>
+        </div>
+
+        {loading ? (
+          <div className="loading-screen">Lade…</div>
+        ) : transactions.length === 0 ? (
+          <EmptyState text="Noch keine Ein-/Auszahlungen erfasst." />
+        ) : (
+          <div className="cash-list">
+            {transactions.map((t) => (
+              <div key={t.id} className="cash-row">
+                <span>{fmtDate(t.occurred_at)}</span>
+                <span className="account-badge">{t.type === 'deposit' ? 'Einzahlung' : 'Auszahlung'}</span>
+                <span className="cash-note">{t.note ?? ''}</span>
+                <strong className={pnlClass(t.type === 'deposit' ? t.amount : -t.amount)}>
+                  {t.type === 'deposit' ? '+' : '-'}{fmtEuro(t.amount)}
+                </strong>
+                <button type="button" className="icon-btn icon-btn-danger" aria-label="Löschen" title="Löschen" onClick={() => handleDelete(t)}>
+                  <TrashIcon />
+                </button>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
 
       {showForm && (
         <Modal title={`${ACCOUNT_LABEL[account]}: Neue Buchung`} onClose={() => setShowForm(false)}>
           <CashForm account={account} onSubmit={handleSubmit} onCancel={() => setShowForm(false)} />
         </Modal>
       )}
-    </div>
+    </>
   )
 }

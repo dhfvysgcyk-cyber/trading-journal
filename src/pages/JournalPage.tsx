@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { deleteTrade, fetchTrades, insertTrade, updateTrade, type TradeFilters } from '../api/trades'
 import { TradeForm } from '../components/trades/TradeForm'
 import { TradeTable } from '../components/trades/TradeTable'
+import { TradeDetails } from '../components/trades/TradeDetails'
 import { Modal } from '../components/ui/Modal'
 import { EmptyState } from '../components/ui/EmptyState'
 import type { AccountType, Trade, TradeInput } from '../types/domain'
@@ -11,6 +12,7 @@ export function JournalPage() {
   const [loading, setLoading] = useState(true)
   const [accountFilter, setAccountFilter] = useState<AccountType | ''>('')
   const [editing, setEditing] = useState<Trade | null>(null)
+  const [viewing, setViewing] = useState<Trade | null>(null)
   const [showForm, setShowForm] = useState(false)
 
   async function load() {
@@ -64,12 +66,26 @@ export function JournalPage() {
       ) : trades.length === 0 ? (
         <EmptyState text='Noch keine Trades erfasst. Lege deinen ersten Trade über "Neuer Trade" an.' />
       ) : (
-        <TradeTable trades={trades} onEdit={(t) => { setEditing(t); setShowForm(true) }} onDelete={handleDelete} />
+        <TradeTable
+          trades={trades}
+          onView={(t) => setViewing(t)}
+          onEdit={(t) => { setEditing(t); setShowForm(true) }}
+          onDelete={handleDelete}
+        />
       )}
 
       {showForm && (
         <Modal title={editing ? 'Trade bearbeiten' : 'Neuer Trade'} onClose={() => { setShowForm(false); setEditing(null) }}>
           <TradeForm initial={editing} onSubmit={handleSubmit} onCancel={() => { setShowForm(false); setEditing(null) }} />
+        </Modal>
+      )}
+
+      {viewing && (
+        <Modal title="Trade ansehen" onClose={() => setViewing(null)}>
+          <TradeDetails trade={viewing} />
+          <div className="modal-actions">
+            <button type="button" className="btn" onClick={() => setViewing(null)}>Schließen</button>
+          </div>
         </Modal>
       )}
     </div>

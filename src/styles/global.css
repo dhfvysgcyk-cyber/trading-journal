@@ -563,3 +563,51 @@
   }
   .cash-note { grid-column: 1 / -1; white-space: normal; }
 }
+
+.icon-btn {
+  appearance: none;
+  border: 1px solid var(--border);
+  background: var(--card2);
+  color: var(--text-secondary);
+  border-radius: 8px;
+  width: 34px;
+  height: 34px;
+  min-height: auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0;
+}
+
+.icon-btn:hover {
+  color: var(--text-primary);
+  border-color: var(--accent-border);
+}
+
+.icon-btn-danger:hover {
+  color: var(--negative);
+  border-color: var(--negative);
+}
+
+.detail-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.detail-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.4rem 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.9rem;
+}
+
+.detail-row:last-child { border-bottom: none; }
+
+.detail-label {
+  color: var(--text-secondary);
+  flex-shrink: 0;
+}
