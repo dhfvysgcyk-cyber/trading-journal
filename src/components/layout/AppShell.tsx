@@ -16,7 +16,10 @@ export function AppShell() {
   return (
     <div className="app-shell">
       <nav className="side-nav">
-        <div className="brand">Trading Journal</div>
+        <div className="brand">
+          <img src={`${import.meta.env.BASE_URL}icons/icon-192.png`} alt="" className="brand-logo" />
+          <span>Trading Journal</span>
+        </div>
         <div className="nav-list">
           {NAV_ITEMS.map((item) => (
             <NavLink

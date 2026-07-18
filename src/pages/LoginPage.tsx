@@ -23,7 +23,8 @@ export function LoginPage() {
   return (
     <div className="login-screen">
       <form className="card login-card" onSubmit={handleSubmit}>
-        <h1 className="page-title">Trading Journal</h1>
+        <img src={`${import.meta.env.BASE_URL}icons/icon-192.png`} alt="" className="login-logo" />
+        <h1 className="page-title" style={{ textAlign: 'center' }}>Trading Journal</h1>
         <label className="field-label" htmlFor="email">E-Mail</label>
         <input
           id="email"

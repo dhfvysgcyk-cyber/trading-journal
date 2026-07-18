@@ -133,17 +133,27 @@
     width: 220px;
     padding: 1.5rem 1rem;
     border-right: 1px solid var(--border);
-    background: rgba(20, 22, 29, 0.6);
+    background: rgba(22, 22, 22, 0.6);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
   }
 }
 
 .brand {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
   font-weight: 700;
   font-size: 1.05rem;
   margin-bottom: 1.5rem;
   padding: 0 0.5rem;
+}
+
+.brand-logo {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  flex-shrink: 0;
 }
 
 .nav-list {
@@ -189,7 +199,7 @@
   right: 0;
   display: flex;
   justify-content: space-around;
-  background: rgba(20, 22, 29, 0.85);
+  background: rgba(22, 22, 22, 0.85);
   border-top: 1px solid var(--border);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
@@ -231,6 +241,14 @@
 .login-card {
   width: 100%;
   max-width: 360px;
+}
+
+.login-logo {
+  display: block;
+  width: 72px;
+  height: 72px;
+  border-radius: 14px;
+  margin: 0 auto 0.75rem;
 }
 
 .form-error {
