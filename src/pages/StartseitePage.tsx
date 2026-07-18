@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { fetchAllAccountOverviews, fetchOverviewSummary } from '../api/stats'
+import { fetchAllAccountOverviews, fetchEquityCurve, fetchOverviewSummary } from '../api/stats'
 import { fetchTrades } from '../api/trades'
 import { StatBox } from '../components/ui/StatBox'
 import { EmptyState } from '../components/ui/EmptyState'
+import { EquityChart } from '../components/ui/EquityChart'
 import { fmtEuro, fmtPct, pnlClass, fmtDate } from '../lib/format'
-import type { AccountOverview, OverviewSummary, Trade } from '../types/domain'
+import type { AccountOverview, EquityPoint, OverviewSummary, Trade } from '../types/domain'
 
 const ACCOUNT_LABEL: Record<string, string> = { live: 'Live Account', propfirm: 'Propfirm' }
 
@@ -13,14 +14,24 @@ export function StartseitePage() {
   const [summary, setSummary] = useState<OverviewSummary | null>(null)
   const [accounts, setAccounts] = useState<AccountOverview[]>([])
   const [recent, setRecent] = useState<Trade[]>([])
+  const [liveEquity, setLiveEquity] = useState<EquityPoint[]>([])
+  const [propEquity, setPropEquity] = useState<EquityPoint[]>([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    Promise.all([fetchOverviewSummary(), fetchAllAccountOverviews(), fetchTrades()])
-      .then(([s, a, t]) => {
+    Promise.all([
+      fetchOverviewSummary(),
+      fetchAllAccountOverviews(),
+      fetchTrades(),
+      fetchEquityCurve('live'),
+      fetchEquityCurve('propfirm'),
+    ])
+      .then(([s, a, t, le, pe]) => {
         setSummary(s)
         setAccounts(a)
         setRecent(t.slice(0, 5))
+        setLiveEquity(le)
+        setPropEquity(pe)
       })
       .finally(() => setLoading(false))
   }, [])
@@ -58,6 +69,18 @@ export function StartseitePage() {
             </Link>
           )
         })}
+      </div>
+
+      <h2 className="section-title">Equity-Kurven</h2>
+      <div className="equity-grid">
+        <div className="card">
+          <div className="equity-chart-title">Live Account</div>
+          <EquityChart points={liveEquity} compact />
+        </div>
+        <div className="card">
+          <div className="equity-chart-title">Propfirm</div>
+          <EquityChart points={propEquity} compact />
+        </div>
       </div>
 
       <h2 className="section-title">Letzte Trades</h2>

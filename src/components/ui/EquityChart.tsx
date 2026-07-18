@@ -6,7 +6,7 @@ import type { EquityPoint } from '../../types/domain'
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Tooltip, Filler)
 
-export function EquityChart({ points }: { points: EquityPoint[] }) {
+export function EquityChart({ points, compact = false }: { points: EquityPoint[]; compact?: boolean }) {
   const data = {
     labels: points.map((p) => p.event_date),
     datasets: [
@@ -18,6 +18,7 @@ export function EquityChart({ points }: { points: EquityPoint[] }) {
         fill: true,
         tension: 0.25,
         pointRadius: 0,
+        borderWidth: compact ? 1.5 : 2,
       },
     ],
   }
@@ -27,13 +28,13 @@ export function EquityChart({ points }: { points: EquityPoint[] }) {
     maintainAspectRatio: false,
     plugins: { legend: { display: false } },
     scales: {
-      x: { ticks: { color: '#999999', maxTicksLimit: 6 }, grid: { display: false } },
-      y: { ticks: { color: '#999999' }, grid: { color: '#2e2e2e' } },
+      x: { ticks: { color: '#999999', maxTicksLimit: compact ? 3 : 6, font: { size: compact ? 9 : 11 } }, grid: { display: false } },
+      y: { ticks: { color: '#999999', maxTicksLimit: compact ? 4 : 6, font: { size: compact ? 9 : 11 } }, grid: { color: '#2e2e2e' } },
     },
   }
 
   return (
-    <div className="chart-box">
+    <div className={compact ? 'chart-box chart-box-sm' : 'chart-box'}>
       <Line data={data} options={options} />
     </div>
   )
