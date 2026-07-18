@@ -8,6 +8,8 @@ const NAV_ITEMS = [
   { to: '/statistik/propfirm', label: 'Prop', icon: '◇' },
 ]
 
+const SETTINGS_ITEM = { to: '/einstellungen', label: 'Einstellungen', icon: '⚙' }
+
 export function AppShell() {
   const { signOut } = useAuth()
 
@@ -28,6 +30,13 @@ export function AppShell() {
             </NavLink>
           ))}
         </div>
+        <NavLink
+          to={SETTINGS_ITEM.to}
+          className={({ isActive }) => `nav-item${isActive ? ' active' : ''}`}
+        >
+          <span className="nav-icon">{SETTINGS_ITEM.icon}</span>
+          <span>{SETTINGS_ITEM.label}</span>
+        </NavLink>
         <button type="button" className="nav-item logout-btn" onClick={() => signOut()}>
           <span className="nav-icon">↩</span>
           <span>Abmelden</span>
@@ -50,6 +59,13 @@ export function AppShell() {
             <span>{item.label}</span>
           </NavLink>
         ))}
+        <NavLink
+          to={SETTINGS_ITEM.to}
+          className={({ isActive }) => `bottom-nav-item${isActive ? ' active' : ''}`}
+        >
+          <span className="nav-icon">{SETTINGS_ITEM.icon}</span>
+          <span>{SETTINGS_ITEM.label}</span>
+        </NavLink>
       </nav>
     </div>
   )

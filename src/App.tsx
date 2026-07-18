@@ -6,6 +6,7 @@ import { LoginPage } from './pages/LoginPage'
 import { StartseitePage } from './pages/StartseitePage'
 import { JournalPage } from './pages/JournalPage'
 import { StatistikPage } from './pages/StatistikPage'
+import { EinstellungenPage } from './pages/EinstellungenPage'
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
             <Route path="/journal" element={<JournalPage />} />
             <Route path="/statistik/live" element={<StatistikPage account="live" />} />
             <Route path="/statistik/propfirm" element={<StatistikPage account="propfirm" />} />
+            <Route path="/einstellungen" element={<EinstellungenPage />} />
           </Route>
         </Routes>
       </BrowserRouter>

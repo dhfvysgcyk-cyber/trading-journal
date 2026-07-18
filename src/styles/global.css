@@ -508,3 +508,58 @@
 
 .breakdown-symbol { font-weight: 600; }
 .breakdown-count { color: var(--text-secondary); font-size: 0.8rem; }
+
+.cash-sections {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.cash-net-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 0.6rem;
+  font-size: 0.95rem;
+}
+
+.cash-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.cash-row {
+  display: grid;
+  grid-template-columns: auto auto 1fr auto auto;
+  gap: 0.6rem;
+  align-items: center;
+  padding: 0.4rem 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.85rem;
+}
+
+.cash-row:last-child { border-bottom: none; }
+
+.cash-note {
+  color: var(--text-secondary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cash-delete-btn {
+  padding: 0.3rem 0.6rem;
+  font-size: 0.78rem;
+  min-height: auto;
+}
+
+@media (max-width: 480px) {
+  .cash-row {
+    grid-template-columns: auto auto auto;
+    row-gap: 0.2rem;
+  }
+  .cash-note { grid-column: 1 / -1; white-space: normal; }
+}
