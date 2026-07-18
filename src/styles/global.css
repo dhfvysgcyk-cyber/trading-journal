@@ -11,13 +11,9 @@
   background: var(--card2);
 }
 
-.glow-blue {
+.glow {
   border-color: var(--accent-border);
   box-shadow: 0 0 24px -8px var(--accent-glow);
-}
-
-.glow-teal {
-  box-shadow: 0 0 24px -8px var(--accent2-glow);
 }
 
 .btn {

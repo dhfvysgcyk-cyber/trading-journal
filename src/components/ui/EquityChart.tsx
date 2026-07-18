@@ -13,8 +13,8 @@ export function EquityChart({ points }: { points: EquityPoint[] }) {
       {
         label: 'Kontostand',
         data: points.map((p) => p.balance),
-        borderColor: '#3fa4ff',
-        backgroundColor: 'rgba(63, 164, 255, 0.14)',
+        borderColor: '#e5e5e5',
+        backgroundColor: 'rgba(229, 229, 229, 0.14)',
         fill: true,
         tension: 0.25,
         pointRadius: 0,
@@ -27,8 +27,8 @@ export function EquityChart({ points }: { points: EquityPoint[] }) {
     maintainAspectRatio: false,
     plugins: { legend: { display: false } },
     scales: {
-      x: { ticks: { color: '#9298a6', maxTicksLimit: 6 }, grid: { display: false } },
-      y: { ticks: { color: '#9298a6' }, grid: { color: '#262a35' } },
+      x: { ticks: { color: '#999999', maxTicksLimit: 6 }, grid: { display: false } },
+      y: { ticks: { color: '#999999' }, grid: { color: '#2e2e2e' } },
     },
   }
 

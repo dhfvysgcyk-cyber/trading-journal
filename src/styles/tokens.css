@@ -1,16 +1,14 @@
 :root {
-  --bg: #0b0d12;
-  --card: #14161d;
-  --card2: #181b23;
-  --border: #262a35;
-  --text-primary: #f2f3f6;
-  --text-secondary: #9298a6;
-  --accent: #3fa4ff;
-  --accent-soft: rgba(63, 164, 255, 0.14);
-  --accent-border: rgba(63, 164, 255, 0.32);
-  --accent-glow: rgba(63, 164, 255, 0.55);
-  --accent2: #2dd4bf;
-  --accent2-glow: rgba(45, 212, 191, 0.4);
+  --bg: #0a0a0a;
+  --card: #161616;
+  --card2: #1e1e1e;
+  --border: #2e2e2e;
+  --text-primary: #f5f5f5;
+  --text-secondary: #999999;
+  --accent: #e5e5e5;
+  --accent-soft: rgba(255, 255, 255, 0.08);
+  --accent-border: rgba(255, 255, 255, 0.24);
+  --accent-glow: rgba(255, 255, 255, 0.22);
   --positive: #52c76a;
   --positive-soft: rgba(82, 199, 106, 0.14);
   --negative: #f0605f;
@@ -23,16 +21,11 @@
   -webkit-tap-highlight-color: transparent;
 }
 
-/* Gradient lives on <html> (not position:fixed) so it stays visible through
+/* Background lives on <html> (not position:fixed) so it stays visible through
    iOS Safari's rubber-band overscroll, which unreliably renders fixed
    backgrounds when the dynamic toolbar collapses. */
 html {
-  background:
-    radial-gradient(ellipse 60% 50% at 15% 12%, rgba(63, 164, 255, 0.16) 0%, transparent 65%),
-    radial-gradient(ellipse 55% 50% at 90% 22%, rgba(45, 212, 191, 0.17) 0%, transparent 65%),
-    radial-gradient(ellipse 65% 55% at 40% 60%, rgba(63, 164, 255, 0.12) 0%, transparent 70%),
-    var(--bg);
-  background-repeat: no-repeat;
+  background: var(--bg);
 }
 
 body {
