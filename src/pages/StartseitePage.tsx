@@ -43,7 +43,7 @@ export function StartseitePage() {
       <h1 className="page-title">Startseite</h1>
 
       <div className="kpi-row">
-        <StatBox label="Gesamt-Kontostand" value={fmtEuro(summary?.combined_balance ?? 0)} />
+        <StatBox label="Gesamt-Kontostand" value={fmtEuro(summary?.combined_balance ?? 0)} valueClassName={pnlClass(summary?.combined_balance ?? 0)} />
         <StatBox label="Gesamt-PnL" value={fmtEuro(summary?.total_pnl ?? 0)} valueClassName={pnlClass(summary?.total_pnl ?? 0)} />
         <StatBox label="Trades gesamt" value={String(summary?.trade_count ?? 0)} />
       </div>
@@ -56,7 +56,7 @@ export function StartseitePage() {
               <div className="account-card-title">{ACCOUNT_LABEL[acc]}</div>
               <div className="account-card-row">
                 <span>Kontostand</span>
-                <strong>{fmtEuro(overview?.current_balance ?? 0)}</strong>
+                <strong className={pnlClass(overview?.current_balance ?? 0)}>{fmtEuro(overview?.current_balance ?? 0)}</strong>
               </div>
               <div className="account-card-row">
                 <span>PnL</span>

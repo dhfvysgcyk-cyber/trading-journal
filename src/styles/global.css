@@ -1,9 +1,10 @@
 .card {
-  background: var(--card);
+  background: linear-gradient(155deg, var(--card-sheen), var(--card));
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  box-shadow: var(--glass-shadow);
   padding: 1.1rem 1.2rem;
 }
 
@@ -19,22 +20,26 @@
 .btn {
   appearance: none;
   border: 1px solid var(--accent-border);
-  background: var(--accent-soft);
+  background: linear-gradient(155deg, rgba(255, 255, 255, 0.16), var(--accent-soft));
   color: var(--text-primary);
-  border-radius: 10px;
+  border-radius: 12px;
   padding: 0.6rem 1rem;
   font-size: 0.95rem;
   font-weight: 600;
   cursor: pointer;
   min-height: 44px;
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.14);
 }
 
-.btn:hover { box-shadow: 0 0 16px -4px var(--accent-glow); }
+.btn:hover { box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.14), 0 0 16px -4px var(--accent-glow); }
 
 .btn-secondary {
   border-color: var(--border);
-  background: transparent;
+  background: rgba(255, 255, 255, 0.04);
   color: var(--text-secondary);
+  box-shadow: none;
 }
 
 .input, select.input, textarea.input {
@@ -46,6 +51,8 @@
   padding: 0.6rem 0.7rem;
   font-size: 0.95rem;
   min-height: 44px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 
 .field-label {
@@ -133,9 +140,9 @@
     width: 220px;
     padding: 1.5rem 1rem;
     border-right: 1px solid var(--border);
-    background: rgba(22, 22, 22, 0.6);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
+    background: rgba(255, 255, 255, 0.04);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
   }
 }
 
@@ -199,10 +206,10 @@
   right: 0;
   display: flex;
   justify-content: space-around;
-  background: rgba(22, 22, 22, 0.85);
+  background: rgba(255, 255, 255, 0.05);
   border-top: 1px solid var(--border);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
   padding: 0.4rem 0.5rem calc(0.4rem + env(safe-area-inset-bottom));
   z-index: 10;
 }
@@ -291,6 +298,9 @@
   color: var(--text-primary);
 }
 
+.account-card-row strong.positive { color: var(--positive); }
+.account-card-row strong.negative { color: var(--negative); }
+
 .section-title {
   font-size: 1.05rem;
   font-weight: 700;
@@ -368,7 +378,9 @@
 .modal-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   display: flex;
   align-items: center;
   justify-content: center;

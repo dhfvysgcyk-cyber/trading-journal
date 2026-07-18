@@ -2,9 +2,23 @@ import { Line } from 'react-chartjs-2'
 import {
   Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Tooltip, Filler,
 } from 'chart.js'
+import type { ScriptableLineSegmentContext } from 'chart.js'
 import type { EquityPoint } from '../../types/domain'
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Tooltip, Filler)
+
+const POSITIVE = '#52c76a'
+const NEGATIVE = '#f0605f'
+const NEUTRAL = '#e5e5e5'
+
+function segmentColor(ctx: ScriptableLineSegmentContext, positive: string, negative: string, neutral: string) {
+  const y0 = ctx.p0.parsed.y
+  const y1 = ctx.p1.parsed.y
+  if (y0 == null || y1 == null) return neutral
+  if (y1 > y0) return positive
+  if (y1 < y0) return negative
+  return neutral
+}
 
 export function EquityChart({ points, compact = false }: { points: EquityPoint[]; compact?: boolean }) {
   const data = {
@@ -13,8 +27,11 @@ export function EquityChart({ points, compact = false }: { points: EquityPoint[]
       {
         label: 'Kontostand',
         data: points.map((p) => p.balance),
-        borderColor: '#e5e5e5',
-        backgroundColor: 'rgba(229, 229, 229, 0.14)',
+        borderColor: NEUTRAL,
+        backgroundColor: 'rgba(229, 229, 229, 0.10)',
+        segment: {
+          borderColor: (ctx: ScriptableLineSegmentContext) => segmentColor(ctx, POSITIVE, NEGATIVE, NEUTRAL),
+        },
         fill: true,
         tension: 0.25,
         pointRadius: 0,
