@@ -1,5 +1,6 @@
 import { NavLink, Outlet } from 'react-router-dom'
 import { useAuth } from '../../lib/auth'
+import { DiamondIcon, GearIcon, HomeIcon, JournalIcon } from '../ui/icons'
 
 const STARTSEITE_ITEM = { to: '/', label: 'Startseite', icon: '⌂' }
 const JOURNAL_ITEM = { to: '/journal', label: 'Journal', icon: '☰' }
@@ -7,11 +8,18 @@ const LIVE_ITEM = { to: '/statistik/live', label: 'Live', icon: '◆' }
 const PROP_ITEM = { to: '/statistik/propfirm', label: 'Prop', icon: '◇' }
 const SETTINGS_ITEM = { to: '/einstellungen', label: 'Einstellungen', icon: '⚙' }
 
-// Desktop sidebar keeps the logical reading order.
+// Desktop sidebar keeps the logical reading order (with text labels).
 const NAV_ITEMS = [STARTSEITE_ITEM, JOURNAL_ITEM, LIVE_ITEM, PROP_ITEM]
 
 // Mobile bottom nav: Startseite centered, Live/Prop to its left, Journal/Einstellungen to its right.
-const BOTTOM_NAV_ITEMS = [LIVE_ITEM, PROP_ITEM, STARTSEITE_ITEM, JOURNAL_ITEM, SETTINGS_ITEM]
+// Icon-only, so each entry carries its own SVG instead of the sidebar's text glyph.
+const BOTTOM_NAV_ITEMS = [
+  { to: LIVE_ITEM.to, label: LIVE_ITEM.label, icon: <DiamondIcon filled /> },
+  { to: PROP_ITEM.to, label: PROP_ITEM.label, icon: <DiamondIcon /> },
+  { to: STARTSEITE_ITEM.to, label: STARTSEITE_ITEM.label, icon: <HomeIcon /> },
+  { to: JOURNAL_ITEM.to, label: JOURNAL_ITEM.label, icon: <JournalIcon /> },
+  { to: SETTINGS_ITEM.to, label: SETTINGS_ITEM.label, icon: <GearIcon /> },
+]
 
 export function AppShell() {
   const { signOut } = useAuth()
@@ -59,10 +67,11 @@ export function AppShell() {
             key={item.to}
             to={item.to}
             end={item.to === '/'}
+            aria-label={item.label}
+            title={item.label}
             className={({ isActive }) => `bottom-nav-item${isActive ? ' active' : ''}`}
           >
-            <span className="nav-icon">{item.icon}</span>
-            <span>{item.label}</span>
+            {item.icon}
           </NavLink>
         ))}
       </nav>

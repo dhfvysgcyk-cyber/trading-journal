@@ -71,7 +71,7 @@
 
 .app-main {
   flex: 1;
-  padding: calc(1rem + env(safe-area-inset-top)) 1rem calc(1rem + 72px + env(safe-area-inset-bottom));
+  padding: calc(1rem + env(safe-area-inset-top)) 1rem calc(1rem + 88px + env(safe-area-inset-bottom));
   max-width: 960px;
   margin: 0 auto;
   width: 100%;
@@ -201,15 +201,17 @@
 /* --- Bottom nav (mobile) --- */
 .bottom-nav {
   position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  left: 14px;
+  right: 14px;
+  bottom: calc(14px + env(safe-area-inset-bottom));
   display: flex;
-  background: rgba(255, 255, 255, 0.035);
-  border-top: 1px solid rgba(255, 255, 255, 0.09);
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 999px;
   backdrop-filter: var(--glass-blur);
   -webkit-backdrop-filter: var(--glass-blur);
-  padding: 0.4rem 0.3rem calc(0.4rem + env(safe-area-inset-bottom));
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  padding: 0.5rem;
   z-index: 10;
 }
 
@@ -219,23 +221,20 @@
 
 .bottom-nav-item {
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 0.15rem;
   flex: 1 1 0;
   min-width: 0;
   color: var(--text-secondary);
   text-decoration: none;
-  font-size: 0.66rem;
-  padding: 0.3rem 0.2rem;
-  border-radius: 10px;
+  border-radius: 999px;
   min-height: 44px;
-  text-align: center;
+  aspect-ratio: 1;
 }
 
 .bottom-nav-item.active {
-  color: var(--accent);
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.14);
 }
 
 .login-screen {
