@@ -1,14 +1,17 @@
 import { NavLink, Outlet } from 'react-router-dom'
 import { useAuth } from '../../lib/auth'
 
-const NAV_ITEMS = [
-  { to: '/', label: 'Startseite', icon: '⌂' },
-  { to: '/journal', label: 'Journal', icon: '☰' },
-  { to: '/statistik/live', label: 'Live', icon: '◆' },
-  { to: '/statistik/propfirm', label: 'Prop', icon: '◇' },
-]
-
+const STARTSEITE_ITEM = { to: '/', label: 'Startseite', icon: '⌂' }
+const JOURNAL_ITEM = { to: '/journal', label: 'Journal', icon: '☰' }
+const LIVE_ITEM = { to: '/statistik/live', label: 'Live', icon: '◆' }
+const PROP_ITEM = { to: '/statistik/propfirm', label: 'Prop', icon: '◇' }
 const SETTINGS_ITEM = { to: '/einstellungen', label: 'Einstellungen', icon: '⚙' }
+
+// Desktop sidebar keeps the logical reading order.
+const NAV_ITEMS = [STARTSEITE_ITEM, JOURNAL_ITEM, LIVE_ITEM, PROP_ITEM]
+
+// Mobile bottom nav: Startseite centered, Live/Prop to its left, Journal/Einstellungen to its right.
+const BOTTOM_NAV_ITEMS = [LIVE_ITEM, PROP_ITEM, STARTSEITE_ITEM, JOURNAL_ITEM, SETTINGS_ITEM]
 
 export function AppShell() {
   const { signOut } = useAuth()
@@ -51,7 +54,7 @@ export function AppShell() {
       </main>
 
       <nav className="bottom-nav">
-        {NAV_ITEMS.map((item) => (
+        {BOTTOM_NAV_ITEMS.map((item) => (
           <NavLink
             key={item.to}
             to={item.to}
@@ -62,13 +65,6 @@ export function AppShell() {
             <span>{item.label}</span>
           </NavLink>
         ))}
-        <NavLink
-          to={SETTINGS_ITEM.to}
-          className={({ isActive }) => `bottom-nav-item${isActive ? ' active' : ''}`}
-        >
-          <span className="nav-icon">{SETTINGS_ITEM.icon}</span>
-          <span>{SETTINGS_ITEM.label}</span>
-        </NavLink>
       </nav>
     </div>
   )
