@@ -20,7 +20,7 @@
 .btn {
   appearance: none;
   border: 1px solid var(--accent-border);
-  background: linear-gradient(155deg, rgba(255, 255, 255, 0.16), var(--accent-soft));
+  background: linear-gradient(155deg, rgba(255, 255, 255, 0.12), var(--accent-soft));
   color: var(--text-primary);
   border-radius: 12px;
   padding: 0.6rem 1rem;
@@ -37,7 +37,7 @@
 
 .btn-secondary {
   border-color: var(--border);
-  background: rgba(255, 255, 255, 0.04);
+  background: rgba(255, 255, 255, 0.03);
   color: var(--text-secondary);
   box-shadow: none;
 }
@@ -140,7 +140,7 @@
     width: 220px;
     padding: 1.5rem 1rem;
     border-right: 1px solid var(--border);
-    background: rgba(255, 255, 255, 0.04);
+    background: rgba(255, 255, 255, 0.03);
     backdrop-filter: var(--glass-blur);
     -webkit-backdrop-filter: var(--glass-blur);
   }
@@ -205,12 +205,11 @@
   left: 0;
   right: 0;
   display: flex;
-  justify-content: space-around;
-  background: rgba(255, 255, 255, 0.05);
-  border-top: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.035);
+  border-top: 1px solid rgba(255, 255, 255, 0.09);
   backdrop-filter: var(--glass-blur);
   -webkit-backdrop-filter: var(--glass-blur);
-  padding: 0.4rem 0.5rem calc(0.4rem + env(safe-area-inset-bottom));
+  padding: 0.4rem 0.3rem calc(0.4rem + env(safe-area-inset-bottom));
   z-index: 10;
 }
 
@@ -222,14 +221,17 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   gap: 0.15rem;
+  flex: 1 1 0;
+  min-width: 0;
   color: var(--text-secondary);
   text-decoration: none;
-  font-size: 0.68rem;
-  padding: 0.3rem 0.6rem;
+  font-size: 0.66rem;
+  padding: 0.3rem 0.2rem;
   border-radius: 10px;
   min-height: 44px;
-  justify-content: center;
+  text-align: center;
 }
 
 .bottom-nav-item.active {
