@@ -71,7 +71,7 @@
 
 .app-main {
   flex: 1;
-  padding: calc(1rem + env(safe-area-inset-top)) 1rem calc(1rem + 56px + env(safe-area-inset-bottom));
+  padding: calc(1rem + env(safe-area-inset-top)) 1rem calc(1rem + 68px + env(safe-area-inset-bottom));
   max-width: 960px;
   margin: 0 auto;
   width: 100%;
@@ -203,10 +203,10 @@
   position: fixed;
   left: 14px;
   right: 14px;
-  bottom: calc(6px + env(safe-area-inset-bottom));
+  bottom: calc(3px + env(safe-area-inset-bottom));
   display: flex;
   align-items: center;
-  height: 46px;
+  height: 58px;
   background: rgba(255, 255, 255, 0.07);
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 999px;
@@ -236,8 +236,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 34px;
-  height: 34px;
+  width: 40px;
+  height: 40px;
   border-radius: 999px;
 }
 
