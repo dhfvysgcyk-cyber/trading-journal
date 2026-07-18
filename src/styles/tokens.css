@@ -1,0 +1,47 @@
+:root {
+  --bg: #0b0d12;
+  --card: #14161d;
+  --card2: #181b23;
+  --border: #262a35;
+  --text-primary: #f2f3f6;
+  --text-secondary: #9298a6;
+  --accent: #3fa4ff;
+  --accent-soft: rgba(63, 164, 255, 0.14);
+  --accent-border: rgba(63, 164, 255, 0.32);
+  --accent-glow: rgba(63, 164, 255, 0.55);
+  --accent2: #2dd4bf;
+  --accent2-glow: rgba(45, 212, 191, 0.4);
+  --positive: #52c76a;
+  --positive-soft: rgba(82, 199, 106, 0.14);
+  --negative: #f0605f;
+  --negative-soft: rgba(240, 96, 95, 0.13);
+  --radius: 14px;
+}
+
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Gradient lives on <html> (not position:fixed) so it stays visible through
+   iOS Safari's rubber-band overscroll, which unreliably renders fixed
+   backgrounds when the dynamic toolbar collapses. */
+html {
+  background:
+    radial-gradient(ellipse 60% 50% at 15% 12%, rgba(63, 164, 255, 0.16) 0%, transparent 65%),
+    radial-gradient(ellipse 55% 50% at 90% 22%, rgba(45, 212, 191, 0.17) 0%, transparent 65%),
+    radial-gradient(ellipse 65% 55% at 40% 60%, rgba(63, 164, 255, 0.12) 0%, transparent 70%),
+    var(--bg);
+  background-repeat: no-repeat;
+}
+
+body {
+  margin: 0;
+  background: transparent;
+  color: var(--text-primary);
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  -webkit-text-size-adjust: 100%;
+}
+
+.positive { color: var(--positive); }
+.negative { color: var(--negative); }
