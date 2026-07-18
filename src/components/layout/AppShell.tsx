@@ -71,7 +71,7 @@ export function AppShell() {
             title={item.label}
             className={({ isActive }) => `bottom-nav-item${isActive ? ' active' : ''}`}
           >
-            {item.icon}
+            <span className="bottom-nav-icon">{item.icon}</span>
           </NavLink>
         ))}
       </nav>

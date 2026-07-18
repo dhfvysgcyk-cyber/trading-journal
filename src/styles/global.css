@@ -71,7 +71,7 @@
 
 .app-main {
   flex: 1;
-  padding: calc(1rem + env(safe-area-inset-top)) 1rem calc(1rem + 64px + env(safe-area-inset-bottom));
+  padding: calc(1rem + env(safe-area-inset-top)) 1rem calc(1rem + 56px + env(safe-area-inset-bottom));
   max-width: 960px;
   margin: 0 auto;
   width: 100%;
@@ -203,15 +203,17 @@
   position: fixed;
   left: 14px;
   right: 14px;
-  bottom: calc(14px + env(safe-area-inset-bottom));
+  bottom: calc(6px + env(safe-area-inset-bottom));
   display: flex;
+  align-items: center;
+  height: 46px;
   background: rgba(255, 255, 255, 0.07);
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 999px;
   backdrop-filter: var(--glass-blur);
   -webkit-backdrop-filter: var(--glass-blur);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
-  padding: 0.15rem;
+  padding: 0 0.3rem;
   z-index: 10;
 }
 
@@ -225,15 +227,25 @@
   justify-content: center;
   flex: 1 1 0;
   min-width: 0;
+  height: 100%;
   color: var(--text-secondary);
   text-decoration: none;
+}
+
+.bottom-nav-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
   border-radius: 999px;
-  min-height: 30px;
-  aspect-ratio: 1;
 }
 
 .bottom-nav-item.active {
   color: var(--text-primary);
+}
+
+.bottom-nav-item.active .bottom-nav-icon {
   background: rgba(255, 255, 255, 0.14);
 }
 
