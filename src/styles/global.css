@@ -203,7 +203,7 @@
   position: fixed;
   left: 14px;
   right: 14px;
-  bottom: calc(3px + env(safe-area-inset-bottom));
+  bottom: calc(1px + env(safe-area-inset-bottom));
   display: flex;
   align-items: center;
   height: 58px;
