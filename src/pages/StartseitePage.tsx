@@ -1,13 +1,15 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { fetchAllAccountOverviews, fetchEquityCurve, fetchOverviewSummary } from '../api/stats'
-import { fetchTrades } from '../api/trades'
+import { fetchTrades, insertTrade } from '../api/trades'
 import { StatBox } from '../components/ui/StatBox'
 import { EmptyState } from '../components/ui/EmptyState'
 import { EquityChart, type EquityMode } from '../components/ui/EquityChart'
 import { EquityModeToggle } from '../components/ui/EquityModeToggle'
+import { TradeForm } from '../components/trades/TradeForm'
+import { Modal } from '../components/ui/Modal'
 import { fmtEuro, fmtPct, pnlClass, fmtDate } from '../lib/format'
-import type { AccountOverview, EquityPoint, OverviewSummary, Trade } from '../types/domain'
+import type { AccountOverview, EquityPoint, OverviewSummary, Trade, TradeInput } from '../types/domain'
 
 const ACCOUNT_LABEL: Record<string, string> = { live: 'Live Account', propfirm: 'Propfirm' }
 
@@ -19,24 +21,32 @@ export function StartseitePage() {
   const [propEquity, setPropEquity] = useState<EquityPoint[]>([])
   const [loading, setLoading] = useState(true)
   const [equityMode, setEquityMode] = useState<EquityMode>('pnl')
+  const [showForm, setShowForm] = useState(false)
 
-  useEffect(() => {
-    Promise.all([
+  async function load() {
+    const [s, a, t, le, pe] = await Promise.all([
       fetchOverviewSummary(),
       fetchAllAccountOverviews(),
       fetchTrades(),
       fetchEquityCurve('live'),
       fetchEquityCurve('propfirm'),
     ])
-      .then(([s, a, t, le, pe]) => {
-        setSummary(s)
-        setAccounts(a)
-        setRecent(t.slice(0, 5))
-        setLiveEquity(le)
-        setPropEquity(pe)
-      })
-      .finally(() => setLoading(false))
+    setSummary(s)
+    setAccounts(a)
+    setRecent(t.slice(0, 5))
+    setLiveEquity(le)
+    setPropEquity(pe)
+  }
+
+  useEffect(() => {
+    load().finally(() => setLoading(false))
   }, [])
+
+  async function handleSubmit(input: TradeInput) {
+    await insertTrade(input)
+    setShowForm(false)
+    await load()
+  }
 
   if (loading) return <div className="loading-screen">Lade…</div>
 
@@ -48,6 +58,10 @@ export function StartseitePage() {
         <StatBox label="Gesamt-Kontostand" value={fmtEuro(summary?.combined_balance ?? 0)} />
         <StatBox label="Gesamt-PnL" value={fmtEuro(summary?.total_pnl ?? 0)} valueClassName={pnlClass(summary?.total_pnl ?? 0)} />
         <StatBox label="Trades gesamt" value={String(summary?.trade_count ?? 0)} />
+        <button type="button" className="card kpi-action" onClick={() => setShowForm(true)}>
+          <span className="kpi-action-plus">+</span>
+          <span>Neuer Trade</span>
+        </button>
       </div>
 
       <div className="account-grid">
@@ -102,6 +116,12 @@ export function StartseitePage() {
             </div>
           ))}
         </div>
+      )}
+
+      {showForm && (
+        <Modal title="Neuer Trade" onClose={() => setShowForm(false)}>
+          <TradeForm onSubmit={handleSubmit} onCancel={() => setShowForm(false)} />
+        </Modal>
       )}
     </div>
   )

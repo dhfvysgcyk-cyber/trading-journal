@@ -105,6 +105,29 @@
   font-weight: 700;
 }
 
+.kpi-action {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3rem;
+  color: var(--text-primary);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  min-height: 80px;
+}
+
+.kpi-action:hover {
+  box-shadow: var(--glass-shadow), 0 0 16px -4px var(--accent-glow);
+}
+
+.kpi-action-plus {
+  font-size: 1.6rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
 .page-title {
   font-size: 1.4rem;
   font-weight: 700;
