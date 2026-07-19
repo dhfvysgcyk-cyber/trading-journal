@@ -49,7 +49,7 @@ export function StatistikPage({ account }: { account: AccountType }) {
       <h1 className="page-title">{ACCOUNT_LABEL[account]}</h1>
 
       <div className="kpi-row">
-        <StatBox label="Kontostand" value={fmtEuro(overview?.current_balance ?? 0)} valueClassName={pnlClass(overview?.current_balance ?? 0)} />
+        <StatBox label="Kontostand" value={fmtEuro(overview?.current_balance ?? 0)} />
         <StatBox label="PnL" value={fmtEuro(overview?.total_pnl ?? 0)} valueClassName={pnlClass(overview?.total_pnl ?? 0)} />
         <StatBox label="Profit-Faktor" value={overview?.profit_factor?.toString() ?? '–'} />
         <StatBox label="Trades" value={String(overview?.trade_count ?? 0)} />
