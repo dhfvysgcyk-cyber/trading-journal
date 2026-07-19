@@ -857,6 +857,58 @@
 
 .cash-row:last-child { border-bottom: none; }
 
+.prop-account-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--border);
+  flex-wrap: wrap;
+}
+
+.prop-account-row:last-child { border-bottom: none; }
+
+.prop-account-note {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.prop-account-meta {
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  margin-top: 0.1rem;
+}
+
+.prop-account-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.prop-account-toggle {
+  padding: 0.35rem 0.7rem;
+  font-size: 0.78rem;
+  min-height: auto;
+}
+
+.status-badge {
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+}
+
+.status-active {
+  color: var(--positive);
+  background: var(--positive-soft);
+}
+
+.status-inactive {
+  color: var(--text-secondary);
+  background: var(--card2);
+}
+
 .cash-note {
   color: var(--text-secondary);
   overflow: hidden;

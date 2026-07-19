@@ -27,6 +27,7 @@ export function CashForm({ account, onSubmit, onCancel }: CashFormProps) {
         amount: Number(amount),
         occurred_at: occurredAt,
         note: note || null,
+        prop_account_id: null,
       })
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Fehler beim Speichern')

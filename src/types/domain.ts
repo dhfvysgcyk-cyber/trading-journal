@@ -33,10 +33,23 @@ export interface CashTransaction {
   amount: number
   occurred_at: string
   note: string | null
+  prop_account_id: string | null
   created_at: string
 }
 
 export type CashTransactionInput = Omit<CashTransaction, 'id' | 'user_id' | 'created_at'>
+
+export interface PropAccount {
+  id: string
+  user_id: string
+  size: number
+  note: string | null
+  opened_at: string
+  active: boolean
+  created_at: string
+}
+
+export type PropAccountInput = Pick<PropAccount, 'size' | 'note' | 'opened_at'>
 
 export interface AccountOverview {
   user_id: string

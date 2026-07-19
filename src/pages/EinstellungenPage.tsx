@@ -1,5 +1,6 @@
 import { CashSection } from '../components/cash/CashSection'
 import { MonthlyGoalInput } from '../components/goals/MonthlyGoalInput'
+import { PropAccountsSection } from '../components/propAccounts/PropAccountsSection'
 
 export function EinstellungenPage() {
   return (
@@ -9,7 +10,7 @@ export function EinstellungenPage() {
         <MonthlyGoalInput account="live" />
         <CashSection account="live" />
         <MonthlyGoalInput account="propfirm" />
-        <CashSection account="propfirm" />
+        <PropAccountsSection />
       </div>
     </div>
   )
