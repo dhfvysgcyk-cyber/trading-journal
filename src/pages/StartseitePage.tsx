@@ -15,7 +15,7 @@ import { fmtEuro, fmtPct, pnlClass, fmtDate } from '../lib/format'
 import { monthlyPnl } from '../lib/monthlyPnl'
 import type { AccountOverview, AccountType, DailyPnl, EquityPoint, MonthlyGoal, OverviewSummary, Trade, TradeInput } from '../types/domain'
 
-const ACCOUNT_LABEL: Record<string, string> = { live: 'Live Account', propfirm: 'Propfirm' }
+const ACCOUNT_LABEL: Record<string, string> = { live: 'Live', propfirm: 'Propfirm' }
 
 export function StartseitePage() {
   const [summary, setSummary] = useState<OverviewSummary | null>(null)
@@ -114,7 +114,7 @@ export function StartseitePage() {
       </div>
       <div className="equity-grid">
         <div className="card">
-          <div className="equity-chart-title">Live Account</div>
+          <div className="equity-chart-title">Live</div>
           <EquityChart points={liveEquity} compact mode={equityMode} />
         </div>
         <div className="card">
@@ -132,7 +132,7 @@ export function StartseitePage() {
             <div key={t.id} className="recent-trade-row">
               <span>{fmtDate(t.datum)}</span>
               <span>{t.symbol ?? '–'}</span>
-              <span className="account-badge">{ACCOUNT_LABEL[t.account]}</span>
+              <span className={`account-badge account-badge-${t.account}`}>{ACCOUNT_LABEL[t.account]}</span>
               <strong className={pnlClass(t.pnl)}>{fmtEuro(t.pnl)}</strong>
             </div>
           ))}

@@ -7,7 +7,7 @@ import { TrashIcon } from '../ui/icons'
 import { fmtDate, fmtEuro, pnlClass } from '../../lib/format'
 import type { AccountType, CashTransaction, CashTransactionInput } from '../../types/domain'
 
-const ACCOUNT_LABEL: Record<AccountType, string> = { live: 'Live Account', propfirm: 'Propfirm' }
+const ACCOUNT_LABEL: Record<AccountType, string> = { live: 'Live', propfirm: 'Propfirm' }
 
 export function CashSection({ account }: { account: AccountType }) {
   const [transactions, setTransactions] = useState<CashTransaction[]>([])

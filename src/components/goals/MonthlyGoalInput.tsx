@@ -5,7 +5,7 @@ import { fmtEuro } from '../../lib/format'
 import { monthlyPnl } from '../../lib/monthlyPnl'
 import type { AccountType, MonthlyGoal } from '../../types/domain'
 
-const ACCOUNT_LABEL: Record<AccountType, string> = { live: 'Live Account', propfirm: 'Propfirm' }
+const ACCOUNT_LABEL: Record<AccountType, string> = { live: 'Live', propfirm: 'Propfirm' }
 const MONTH_LABELS = [
   'Januar', 'Februar', 'März', 'April', 'Mai', 'Juni',
   'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember',

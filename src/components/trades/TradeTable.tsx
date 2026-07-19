@@ -20,7 +20,7 @@ export function TradeTable({ trades, detailed = false, onView, onEdit, onDelete 
         <div key={t.id} className="card trade-row">
           <div className="trade-row-main">
             <div>
-              <span className="account-badge">{ACCOUNT_LABEL[t.account]}</span>
+              <span className={`account-badge account-badge-${t.account}`}>{ACCOUNT_LABEL[t.account]}</span>
               <span className="trade-symbol">{t.symbol ?? '–'}</span>
             </div>
             <strong className={pnlClass(t.pnl)}>{fmtEuro(t.pnl)}</strong>

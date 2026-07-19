@@ -411,6 +411,16 @@
   margin-right: 0.5rem;
 }
 
+.account-badge-live {
+  color: #4da6ff;
+  background: rgba(77, 166, 255, 0.14);
+}
+
+.account-badge-propfirm {
+  color: #ff9f43;
+  background: rgba(255, 159, 67, 0.14);
+}
+
 .page-header {
   display: flex;
   align-items: center;
