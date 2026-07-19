@@ -39,6 +39,9 @@ export function PropAccountsSection() {
   }
 
   async function handleToggleActive(a: PropAccount) {
+    const action = a.active ? 'deaktivieren' : 'aktivieren'
+    const name = a.note ?? 'Ohne Notiz'
+    if (!confirm(`Account "${name}" (${fmtEuro(a.size)}) wirklich ${action}?`)) return
     await setPropAccountActive(a.id, !a.active)
     await load()
   }
