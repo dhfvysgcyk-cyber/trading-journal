@@ -86,6 +86,24 @@ export interface SymbolBreakdown {
   total_pnl: number
 }
 
+export interface MonthlyGoal {
+  id: string
+  user_id: string
+  account: AccountType
+  year: number
+  month: number
+  target_pnl: number
+}
+
+export interface DailyNote {
+  id: string
+  user_id: string
+  note_date: string
+  note: string
+  created_at: string
+  updated_at: string
+}
+
 export const SYMBOL_OPTIONS = [
   'XAUUSD', 'US30', 'NAS100', 'S&P 500',
   'EURUSD', 'USDJPY', 'GBPUSD', 'GBPJPY', 'USDCHF', 'AUDUSD', 'AUDJPY', 'AUDCHF',

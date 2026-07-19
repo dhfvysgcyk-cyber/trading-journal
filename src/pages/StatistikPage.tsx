@@ -2,16 +2,21 @@ import { useEffect, useState } from 'react'
 import {
   fetchAccountOverview, fetchBreakdownBySymbol, fetchDailyPnl, fetchEquityCurve, fetchPnlByWeekday,
 } from '../api/stats'
+import { fetchTrades } from '../api/trades'
+import { fetchMonthlyGoal } from '../api/goals'
 import { StatBox } from '../components/ui/StatBox'
 import { RingGauge } from '../components/ui/RingGauge'
 import { EquityChart, type EquityMode } from '../components/ui/EquityChart'
 import { EquityModeToggle } from '../components/ui/EquityModeToggle'
-import { CalendarHeatmap } from '../components/ui/CalendarHeatmap'
+import { MonthCalendar } from '../components/ui/MonthCalendar'
 import { WeekdayBars } from '../components/ui/WeekdayBars'
 import { BreakdownCard } from '../components/ui/BreakdownCard'
+import { GoalProgress } from '../components/ui/GoalProgress'
+import { StreakBadge } from '../components/ui/StreakBadge'
 import { EmptyState } from '../components/ui/EmptyState'
 import { fmtEuro, pnlClass } from '../lib/format'
-import type { AccountOverview, AccountType, DailyPnl, EquityPoint, SymbolBreakdown, WeekdayPnl } from '../types/domain'
+import { computeStreak } from '../lib/streak'
+import type { AccountOverview, AccountType, DailyPnl, EquityPoint, MonthlyGoal, SymbolBreakdown, Trade, WeekdayPnl } from '../types/domain'
 
 const ACCOUNT_LABEL: Record<AccountType, string> = { live: 'Live Account Statistik', propfirm: 'Prop Account Statistik' }
 
@@ -21,23 +26,30 @@ export function StatistikPage({ account }: { account: AccountType }) {
   const [daily, setDaily] = useState<DailyPnl[]>([])
   const [weekday, setWeekday] = useState<WeekdayPnl[]>([])
   const [symbols, setSymbols] = useState<SymbolBreakdown[]>([])
+  const [trades, setTrades] = useState<Trade[]>([])
+  const [goal, setGoal] = useState<MonthlyGoal | null>(null)
   const [loading, setLoading] = useState(true)
   const [equityMode, setEquityMode] = useState<EquityMode>('pnl')
 
   useEffect(() => {
     setLoading(true)
+    const now = new Date()
     Promise.all([
       fetchAccountOverview(account),
       fetchEquityCurve(account),
       fetchDailyPnl(account),
       fetchPnlByWeekday(account),
       fetchBreakdownBySymbol(account),
-    ]).then(([o, e, d, w, s]) => {
+      fetchTrades({ account }),
+      fetchMonthlyGoal(account, now.getFullYear(), now.getMonth() + 1),
+    ]).then(([o, e, d, w, s, t, g]) => {
       setOverview(o)
       setEquity(e)
       setDaily(d)
       setWeekday(w)
       setSymbols(s)
+      setTrades(t)
+      setGoal(g)
       setLoading(false)
     })
   }, [account])
@@ -45,6 +57,13 @@ export function StatistikPage({ account }: { account: AccountType }) {
   if (loading) return <div className="loading-screen">Lade…</div>
 
   const hasTrades = (overview?.trade_count ?? 0) > 0
+
+  const now = new Date()
+  const currentMonthPrefix = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`
+  const currentMonthPnl = daily
+    .filter((d) => d.trade_date.startsWith(currentMonthPrefix))
+    .reduce((sum, d) => sum + d.pnl, 0)
+  const streak = computeStreak(trades)
 
   return (
     <div>
@@ -55,6 +74,15 @@ export function StatistikPage({ account }: { account: AccountType }) {
         <StatBox label="PnL" value={fmtEuro(overview?.total_pnl ?? 0)} valueClassName={pnlClass(overview?.total_pnl ?? 0)} />
         <StatBox label="Profit-Faktor" value={overview?.profit_factor?.toString() ?? '–'} />
         <StatBox label="Trades" value={String(overview?.trade_count ?? 0)} />
+      </div>
+
+      <div className="goal-and-streak-row">
+        <div className="card">
+          <GoalProgress currentPnl={currentMonthPnl} targetPnl={goal?.target_pnl ?? null} />
+        </div>
+        <div className="card">
+          <StreakBadge streak={streak} />
+        </div>
       </div>
 
       {!hasTrades ? (
@@ -75,9 +103,9 @@ export function StatistikPage({ account }: { account: AccountType }) {
             <EquityChart points={equity} mode={equityMode} />
           </div>
 
-          <h2 className="section-title">Tages-PnL (letzte 12 Wochen)</h2>
+          <h2 className="section-title">Kalender</h2>
           <div className="card">
-            <CalendarHeatmap data={daily} />
+            <MonthCalendar data={daily} account={account} />
           </div>
 
           <h2 className="section-title">PnL nach Wochentag</h2>

@@ -1,17 +1,26 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { fetchAllAccountOverviews, fetchEquityCurve, fetchOverviewSummary } from '../api/stats'
+import { fetchAllAccountOverviews, fetchDailyPnl, fetchEquityCurve, fetchOverviewSummary } from '../api/stats'
 import { fetchTrades, insertTrade } from '../api/trades'
+import { fetchMonthlyGoal } from '../api/goals'
 import { StatBox } from '../components/ui/StatBox'
 import { EmptyState } from '../components/ui/EmptyState'
 import { EquityChart, type EquityMode } from '../components/ui/EquityChart'
 import { EquityModeToggle } from '../components/ui/EquityModeToggle'
+import { GoalProgress } from '../components/ui/GoalProgress'
 import { TradeForm } from '../components/trades/TradeForm'
 import { Modal } from '../components/ui/Modal'
+import { DailyNotesSection } from '../components/notes/DailyNotesSection'
 import { fmtEuro, fmtPct, pnlClass, fmtDate } from '../lib/format'
-import type { AccountOverview, EquityPoint, OverviewSummary, Trade, TradeInput } from '../types/domain'
+import type { AccountOverview, AccountType, DailyPnl, EquityPoint, MonthlyGoal, OverviewSummary, Trade, TradeInput } from '../types/domain'
 
 const ACCOUNT_LABEL: Record<string, string> = { live: 'Live Account', propfirm: 'Propfirm' }
+
+function currentMonthPnl(daily: DailyPnl[]): number {
+  const now = new Date()
+  const prefix = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`
+  return daily.filter((d) => d.trade_date.startsWith(prefix)).reduce((sum, d) => sum + d.pnl, 0)
+}
 
 export function StartseitePage() {
   const [summary, setSummary] = useState<OverviewSummary | null>(null)
@@ -19,23 +28,34 @@ export function StartseitePage() {
   const [recent, setRecent] = useState<Trade[]>([])
   const [liveEquity, setLiveEquity] = useState<EquityPoint[]>([])
   const [propEquity, setPropEquity] = useState<EquityPoint[]>([])
+  const [liveDaily, setLiveDaily] = useState<DailyPnl[]>([])
+  const [propDaily, setPropDaily] = useState<DailyPnl[]>([])
+  const [goals, setGoals] = useState<Record<AccountType, MonthlyGoal | null>>({ live: null, propfirm: null })
   const [loading, setLoading] = useState(true)
   const [equityMode, setEquityMode] = useState<EquityMode>('pnl')
   const [showForm, setShowForm] = useState(false)
 
   async function load() {
-    const [s, a, t, le, pe] = await Promise.all([
+    const now = new Date()
+    const [s, a, t, le, pe, ld, pd, liveGoal, propGoal] = await Promise.all([
       fetchOverviewSummary(),
       fetchAllAccountOverviews(),
       fetchTrades(),
       fetchEquityCurve('live'),
       fetchEquityCurve('propfirm'),
+      fetchDailyPnl('live'),
+      fetchDailyPnl('propfirm'),
+      fetchMonthlyGoal('live', now.getFullYear(), now.getMonth() + 1),
+      fetchMonthlyGoal('propfirm', now.getFullYear(), now.getMonth() + 1),
     ])
     setSummary(s)
     setAccounts(a)
     setRecent(t.slice(0, 5))
     setLiveEquity(le)
     setPropEquity(pe)
+    setLiveDaily(ld)
+    setPropDaily(pd)
+    setGoals({ live: liveGoal, propfirm: propGoal })
   }
 
   useEffect(() => {
@@ -49,6 +69,8 @@ export function StartseitePage() {
   }
 
   if (loading) return <div className="loading-screen">Lade…</div>
+
+  const dailyByAccount: Record<AccountType, DailyPnl[]> = { live: liveDaily, propfirm: propDaily }
 
   return (
     <div>
@@ -81,6 +103,9 @@ export function StartseitePage() {
               <div className="account-card-row">
                 <span>Winrate</span>
                 <strong>{fmtPct(overview?.winrate ?? null)}</strong>
+              </div>
+              <div className="account-card-goal">
+                <GoalProgress currentPnl={currentMonthPnl(dailyByAccount[acc])} targetPnl={goals[acc]?.target_pnl ?? null} />
               </div>
             </Link>
           )
@@ -117,6 +142,10 @@ export function StartseitePage() {
           ))}
         </div>
       )}
+
+      <div style={{ marginTop: '1.25rem' }}>
+        <DailyNotesSection />
+      </div>
 
       {showForm && (
         <Modal title="Neuer Trade" onClose={() => setShowForm(false)}>
