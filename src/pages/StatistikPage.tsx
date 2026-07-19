@@ -4,7 +4,8 @@ import {
 } from '../api/stats'
 import { StatBox } from '../components/ui/StatBox'
 import { RingGauge } from '../components/ui/RingGauge'
-import { EquityChart } from '../components/ui/EquityChart'
+import { EquityChart, type EquityMode } from '../components/ui/EquityChart'
+import { EquityModeToggle } from '../components/ui/EquityModeToggle'
 import { CalendarHeatmap } from '../components/ui/CalendarHeatmap'
 import { WeekdayBars } from '../components/ui/WeekdayBars'
 import { BreakdownCard } from '../components/ui/BreakdownCard'
@@ -21,6 +22,7 @@ export function StatistikPage({ account }: { account: AccountType }) {
   const [weekday, setWeekday] = useState<WeekdayPnl[]>([])
   const [symbols, setSymbols] = useState<SymbolBreakdown[]>([])
   const [loading, setLoading] = useState(true)
+  const [equityMode, setEquityMode] = useState<EquityMode>('pnl')
 
   useEffect(() => {
     setLoading(true)
@@ -65,9 +67,12 @@ export function StatistikPage({ account }: { account: AccountType }) {
             <RingGauge label="Ø realisiertes R/R" value={overview?.avg_realized_rr ?? null} suffix="R" max={5} />
           </div>
 
-          <h2 className="section-title">Equity-Kurve</h2>
+          <div className="section-header">
+            <h2 className="section-title">Equity-Kurve</h2>
+            <EquityModeToggle value={equityMode} onChange={setEquityMode} />
+          </div>
           <div className="card">
-            <EquityChart points={equity} />
+            <EquityChart points={equity} mode={equityMode} />
           </div>
 
           <h2 className="section-title">Tages-PnL (letzte 12 Wochen)</h2>

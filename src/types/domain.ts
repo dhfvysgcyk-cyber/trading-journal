@@ -62,7 +62,9 @@ export interface EquityPoint {
   event_date: string
   delta: number
   balance: number
+  pnl_balance: number
   label: string
+  event_type: 'trade' | 'cash'
 }
 
 export interface DailyPnl {

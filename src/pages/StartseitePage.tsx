@@ -4,7 +4,8 @@ import { fetchAllAccountOverviews, fetchEquityCurve, fetchOverviewSummary } from
 import { fetchTrades } from '../api/trades'
 import { StatBox } from '../components/ui/StatBox'
 import { EmptyState } from '../components/ui/EmptyState'
-import { EquityChart } from '../components/ui/EquityChart'
+import { EquityChart, type EquityMode } from '../components/ui/EquityChart'
+import { EquityModeToggle } from '../components/ui/EquityModeToggle'
 import { fmtEuro, fmtPct, pnlClass, fmtDate } from '../lib/format'
 import type { AccountOverview, EquityPoint, OverviewSummary, Trade } from '../types/domain'
 
@@ -17,6 +18,7 @@ export function StartseitePage() {
   const [liveEquity, setLiveEquity] = useState<EquityPoint[]>([])
   const [propEquity, setPropEquity] = useState<EquityPoint[]>([])
   const [loading, setLoading] = useState(true)
+  const [equityMode, setEquityMode] = useState<EquityMode>('pnl')
 
   useEffect(() => {
     Promise.all([
@@ -71,15 +73,18 @@ export function StartseitePage() {
         })}
       </div>
 
-      <h2 className="section-title">Equity-Kurven</h2>
+      <div className="section-header">
+        <h2 className="section-title">Equity-Kurven</h2>
+        <EquityModeToggle value={equityMode} onChange={setEquityMode} />
+      </div>
       <div className="equity-grid">
         <div className="card">
           <div className="equity-chart-title">Live Account</div>
-          <EquityChart points={liveEquity} compact />
+          <EquityChart points={liveEquity} compact mode={equityMode} />
         </div>
         <div className="card">
           <div className="equity-chart-title">Propfirm</div>
-          <EquityChart points={propEquity} compact />
+          <EquityChart points={propEquity} compact mode={equityMode} />
         </div>
       </div>
 

@@ -6,13 +6,15 @@ import type { EquityPoint } from '../../types/domain'
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Tooltip, Filler)
 
-export function EquityChart({ points, compact = false }: { points: EquityPoint[]; compact?: boolean }) {
+export type EquityMode = 'balance' | 'pnl'
+
+export function EquityChart({ points, compact = false, mode = 'pnl' }: { points: EquityPoint[]; compact?: boolean; mode?: EquityMode }) {
   const data = {
     labels: points.map((p) => p.event_date),
     datasets: [
       {
-        label: 'Kontostand',
-        data: points.map((p) => p.balance),
+        label: mode === 'pnl' ? 'PnL' : 'Kontostand',
+        data: points.map((p) => (mode === 'pnl' ? p.pnl_balance : p.balance)),
         borderColor: '#e5e5e5',
         backgroundColor: 'rgba(229, 229, 229, 0.10)',
         fill: true,
