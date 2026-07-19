@@ -1,17 +1,19 @@
 import { fmtDate, fmtEuro, pnlClass } from '../../lib/format'
 import { EyeIcon, PencilIcon, TrashIcon } from '../ui/icons'
+import { TradeDetails } from './TradeDetails'
 import type { Trade } from '../../types/domain'
 
 const ACCOUNT_LABEL: Record<string, string> = { live: 'Live', propfirm: 'Propfirm' }
 
 interface TradeTableProps {
   trades: Trade[]
+  detailed?: boolean
   onView: (trade: Trade) => void
   onEdit: (trade: Trade) => void
   onDelete: (trade: Trade) => void
 }
 
-export function TradeTable({ trades, onView, onEdit, onDelete }: TradeTableProps) {
+export function TradeTable({ trades, detailed = false, onView, onEdit, onDelete }: TradeTableProps) {
   return (
     <div className="trade-list">
       {trades.map((t) => (
@@ -23,16 +25,24 @@ export function TradeTable({ trades, onView, onEdit, onDelete }: TradeTableProps
             </div>
             <strong className={pnlClass(t.pnl)}>{fmtEuro(t.pnl)}</strong>
           </div>
-          <div className="trade-row-meta">
-            <span>{fmtDate(t.datum)}</span>
-            <span>{t.direction ?? '–'}</span>
-            <span>{t.result ?? '–'}</span>
-            <span>R/R {t.rr ?? '–'}{t.realized_rr !== null ? ` → ${t.realized_rr}` : ''}</span>
-          </div>
+
+          {detailed ? (
+            <TradeDetails trade={t} />
+          ) : (
+            <div className="trade-row-meta">
+              <span>{fmtDate(t.datum)}</span>
+              <span>{t.direction ?? '–'}</span>
+              <span>{t.result ?? '–'}</span>
+              <span>R/R {t.rr ?? '–'}{t.realized_rr !== null ? ` → ${t.realized_rr}` : ''}</span>
+            </div>
+          )}
+
           <div className="trade-row-actions">
-            <button type="button" className="icon-btn" aria-label="Ansehen" title="Ansehen" onClick={() => onView(t)}>
-              <EyeIcon />
-            </button>
+            {!detailed && (
+              <button type="button" className="icon-btn" aria-label="Ansehen" title="Ansehen" onClick={() => onView(t)}>
+                <EyeIcon />
+              </button>
+            )}
             <button type="button" className="icon-btn" aria-label="Bearbeiten" title="Bearbeiten" onClick={() => onEdit(t)}>
               <PencilIcon />
             </button>

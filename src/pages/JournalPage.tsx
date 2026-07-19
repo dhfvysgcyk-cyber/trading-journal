@@ -14,6 +14,7 @@ export function JournalPage() {
   const [editing, setEditing] = useState<Trade | null>(null)
   const [viewing, setViewing] = useState<Trade | null>(null)
   const [showForm, setShowForm] = useState(false)
+  const [detailed, setDetailed] = useState(false)
 
   async function load() {
     setLoading(true)
@@ -53,12 +54,16 @@ export function JournalPage() {
         <button type="button" className="btn" onClick={() => { setEditing(null); setShowForm(true) }}>+ Neuer Trade</button>
       </div>
 
-      <div className="filter-row">
-        <select className="input" value={accountFilter} onChange={(e) => setAccountFilter(e.target.value as AccountType | '')}>
+      <div className="filter-row-header">
+        <select className="input filter-row" value={accountFilter} onChange={(e) => setAccountFilter(e.target.value as AccountType | '')}>
           <option value="">Alle Accounts</option>
           <option value="live">Live</option>
           <option value="propfirm">Propfirm</option>
         </select>
+        <div className="segmented-control">
+          <button type="button" className={`segmented-option${!detailed ? ' active' : ''}`} onClick={() => setDetailed(false)}>Kompakt</button>
+          <button type="button" className={`segmented-option${detailed ? ' active' : ''}`} onClick={() => setDetailed(true)}>Ausführlich</button>
+        </div>
       </div>
 
       {loading ? (
@@ -68,6 +73,7 @@ export function JournalPage() {
       ) : (
         <TradeTable
           trades={trades}
+          detailed={detailed}
           onView={(t) => setViewing(t)}
           onEdit={(t) => { setEditing(t); setShowForm(true) }}
           onDelete={handleDelete}
