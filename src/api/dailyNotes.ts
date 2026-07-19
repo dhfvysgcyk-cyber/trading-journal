@@ -1,12 +1,11 @@
 import { supabase } from '../lib/supabaseClient'
 import type { DailyNote } from '../types/domain'
 
-export async function fetchDailyNotes(limit = 20): Promise<DailyNote[]> {
-  const { data, error } = await supabase
-    .from('daily_notes')
-    .select('*')
-    .order('note_date', { ascending: false })
-    .limit(limit)
+export async function fetchDailyNotes(from?: string, to?: string): Promise<DailyNote[]> {
+  let query = supabase.from('daily_notes').select('*').order('note_date', { ascending: true })
+  if (from) query = query.gte('note_date', from)
+  if (to) query = query.lte('note_date', to)
+  const { data, error } = await query
   if (error) throw error
   return data as DailyNote[]
 }

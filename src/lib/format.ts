@@ -35,3 +35,13 @@ export function nowLocalDateTimeValue(): string {
   d.setMinutes(d.getMinutes() - d.getTimezoneOffset())
   return d.toISOString().slice(0, 16)
 }
+
+// Local calendar date as YYYY-MM-DD. Deliberately avoids toISOString(), which
+// converts to UTC first and can land on the wrong day for timezones ahead of
+// UTC (e.g. right after local midnight in Germany during CEST).
+export function localDateValue(d: Date = new Date()): string {
+  const year = d.getFullYear()
+  const month = String(d.getMonth() + 1).padStart(2, '0')
+  const day = String(d.getDate()).padStart(2, '0')
+  return `${year}-${month}-${day}`
+}

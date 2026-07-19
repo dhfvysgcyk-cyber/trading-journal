@@ -1,4 +1,5 @@
 import { useState, type FormEvent } from 'react'
+import { localDateValue } from '../../lib/format'
 import type { AccountType, CashTransactionInput, CashType } from '../../types/domain'
 
 interface CashFormProps {
@@ -7,14 +8,10 @@ interface CashFormProps {
   onCancel: () => void
 }
 
-function todayDateValue(): string {
-  return new Date().toISOString().slice(0, 10)
-}
-
 export function CashForm({ account, onSubmit, onCancel }: CashFormProps) {
   const [type, setType] = useState<CashType>('deposit')
   const [amount, setAmount] = useState('')
-  const [occurredAt, setOccurredAt] = useState(todayDateValue())
+  const [occurredAt, setOccurredAt] = useState(localDateValue())
   const [note, setNote] = useState('')
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
