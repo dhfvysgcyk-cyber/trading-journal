@@ -909,6 +909,45 @@
   background: var(--card2);
 }
 
+.status-missed {
+  color: var(--negative);
+  background: var(--negative-soft);
+}
+
+.goal-history {
+  margin-top: 1rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--border);
+}
+
+.goal-history-title {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  margin-bottom: 0.5rem;
+}
+
+.goal-history-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+  padding: 0.4rem 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.85rem;
+  flex-wrap: wrap;
+}
+
+.goal-history-row:last-child { border-bottom: none; }
+
+.goal-history-month {
+  flex: 1;
+  min-width: 90px;
+}
+
+.goal-history-values {
+  color: var(--text-secondary);
+}
+
 .cash-note {
   color: var(--text-secondary);
   overflow: hidden;

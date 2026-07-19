@@ -16,6 +16,7 @@ import { StreakBadge } from '../components/ui/StreakBadge'
 import { EmptyState } from '../components/ui/EmptyState'
 import { fmtEuro, pnlClass } from '../lib/format'
 import { computeStreak } from '../lib/streak'
+import { monthlyPnl } from '../lib/monthlyPnl'
 import type { AccountOverview, AccountType, DailyPnl, EquityPoint, MonthlyGoal, SymbolBreakdown, Trade, WeekdayPnl } from '../types/domain'
 
 const ACCOUNT_LABEL: Record<AccountType, string> = { live: 'Live Account Statistik', propfirm: 'Prop Account Statistik' }
@@ -59,10 +60,7 @@ export function StatistikPage({ account }: { account: AccountType }) {
   const hasTrades = (overview?.trade_count ?? 0) > 0
 
   const now = new Date()
-  const currentMonthPrefix = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`
-  const currentMonthPnl = daily
-    .filter((d) => d.trade_date.startsWith(currentMonthPrefix))
-    .reduce((sum, d) => sum + d.pnl, 0)
+  const currentMonthPnl = monthlyPnl(daily, now.getFullYear(), now.getMonth() + 1)
   const streak = computeStreak(trades)
 
   return (
@@ -93,6 +91,11 @@ export function StatistikPage({ account }: { account: AccountType }) {
             <RingGauge label="Winrate" value={overview?.winrate ?? null} />
             <RingGauge label="Ø geplantes R/R" value={overview?.avg_rr ?? null} suffix="R" max={5} />
             <RingGauge label="Ø realisiertes R/R" value={overview?.avg_realized_rr ?? null} suffix="R" max={5} />
+          </div>
+
+          <div className="kpi-row">
+            <StatBox label="Ø Gewinn-Trade" value={fmtEuro(overview?.avg_win_pnl ?? null)} valueClassName="positive" />
+            <StatBox label="Ø Verlust-Trade" value={fmtEuro(overview?.avg_loss_pnl ?? null)} valueClassName="negative" />
           </div>
 
           <div className="section-header">

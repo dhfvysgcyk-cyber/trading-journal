@@ -62,6 +62,8 @@ export interface AccountOverview {
   avg_realized_rr: number | null
   net_cash: number
   current_balance: number
+  avg_win_pnl: number | null
+  avg_loss_pnl: number | null
 }
 
 export interface OverviewSummary {

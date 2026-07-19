@@ -13,6 +13,18 @@ export async function fetchMonthlyGoal(account: AccountType, year: number, month
   return data as MonthlyGoal | null
 }
 
+export async function fetchMonthlyGoals(account: AccountType): Promise<MonthlyGoal[]> {
+  const { data, error } = await supabase
+    .from('monthly_goals')
+    .select('*')
+    .eq('account', account)
+    .order('year', { ascending: false })
+    .order('month', { ascending: false })
+    .limit(24)
+  if (error) throw error
+  return data as MonthlyGoal[]
+}
+
 export async function upsertMonthlyGoal(account: AccountType, year: number, month: number, targetPnl: number): Promise<MonthlyGoal> {
   const { data, error } = await supabase
     .from('monthly_goals')

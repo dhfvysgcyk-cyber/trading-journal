@@ -12,15 +12,10 @@ import { TradeForm } from '../components/trades/TradeForm'
 import { Modal } from '../components/ui/Modal'
 import { DailyNotesSection } from '../components/notes/DailyNotesSection'
 import { fmtEuro, fmtPct, pnlClass, fmtDate } from '../lib/format'
+import { monthlyPnl } from '../lib/monthlyPnl'
 import type { AccountOverview, AccountType, DailyPnl, EquityPoint, MonthlyGoal, OverviewSummary, Trade, TradeInput } from '../types/domain'
 
 const ACCOUNT_LABEL: Record<string, string> = { live: 'Live Account', propfirm: 'Propfirm' }
-
-function currentMonthPnl(daily: DailyPnl[]): number {
-  const now = new Date()
-  const prefix = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`
-  return daily.filter((d) => d.trade_date.startsWith(prefix)).reduce((sum, d) => sum + d.pnl, 0)
-}
 
 export function StartseitePage() {
   const [summary, setSummary] = useState<OverviewSummary | null>(null)
@@ -71,6 +66,7 @@ export function StartseitePage() {
   if (loading) return <div className="loading-screen">Lade…</div>
 
   const dailyByAccount: Record<AccountType, DailyPnl[]> = { live: liveDaily, propfirm: propDaily }
+  const now = new Date()
 
   return (
     <div>
@@ -105,7 +101,7 @@ export function StartseitePage() {
                 <strong>{fmtPct(overview?.winrate ?? null)}</strong>
               </div>
               <div className="account-card-goal">
-                <GoalProgress currentPnl={currentMonthPnl(dailyByAccount[acc])} targetPnl={goals[acc]?.target_pnl ?? null} />
+                <GoalProgress currentPnl={monthlyPnl(dailyByAccount[acc], now.getFullYear(), now.getMonth() + 1)} targetPnl={goals[acc]?.target_pnl ?? null} />
               </div>
             </Link>
           )
