@@ -440,15 +440,35 @@
   min-width: 0;
 }
 
-.segmented-control-scroll {
-  max-width: 100%;
-  overflow-x: auto;
-  scrollbar-width: none;
+.select-pill-wrap {
+  position: relative;
+  display: inline-flex;
 }
 
-.segmented-control-scroll::-webkit-scrollbar { display: none; }
+.select-pill {
+  appearance: none;
+  -webkit-appearance: none;
+  background: var(--card2);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  color: var(--text-primary);
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 0.35rem 1.7rem 0.35rem 0.8rem;
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  cursor: pointer;
+}
 
-.segmented-control-scroll .segmented-control { flex-shrink: 0; }
+.select-pill-chevron {
+  position: absolute;
+  right: 0.65rem;
+  top: 50%;
+  transform: translateY(-60%);
+  pointer-events: none;
+  color: var(--text-secondary);
+  font-size: 0.65rem;
+}
 
 .recent-trade-row {
   display: grid;

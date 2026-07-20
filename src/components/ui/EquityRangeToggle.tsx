@@ -10,19 +10,18 @@ const OPTIONS: { value: EquityRange; label: string }[] = [
 
 export function EquityRangeToggle({ value, onChange }: { value: EquityRange; onChange: (range: EquityRange) => void }) {
   return (
-    <div className="segmented-control-scroll">
-      <div className="segmented-control">
+    <div className="select-pill-wrap">
+      <select
+        className="select-pill"
+        aria-label="Zeitraum"
+        value={value}
+        onChange={(e) => onChange(e.target.value as EquityRange)}
+      >
         {OPTIONS.map((opt) => (
-          <button
-            key={opt.value}
-            type="button"
-            className={`segmented-option${value === opt.value ? ' active' : ''}`}
-            onClick={() => onChange(opt.value)}
-          >
-            {opt.label}
-          </button>
+          <option key={opt.value} value={opt.value}>{opt.label}</option>
         ))}
-      </div>
+      </select>
+      <span className="select-pill-chevron">▾</span>
     </div>
   )
 }
