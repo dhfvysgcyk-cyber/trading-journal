@@ -8,6 +8,7 @@ import { StatBox } from '../components/ui/StatBox'
 import { RingGauge } from '../components/ui/RingGauge'
 import { EquityChart, type EquityMode } from '../components/ui/EquityChart'
 import { EquityModeToggle } from '../components/ui/EquityModeToggle'
+import { EquityRangeToggle } from '../components/ui/EquityRangeToggle'
 import { MonthCalendar } from '../components/ui/MonthCalendar'
 import { WeekdayBars } from '../components/ui/WeekdayBars'
 import { BreakdownCard } from '../components/ui/BreakdownCard'
@@ -17,6 +18,7 @@ import { EmptyState } from '../components/ui/EmptyState'
 import { fmtEuro, pnlClass } from '../lib/format'
 import { computeStreak } from '../lib/streak'
 import { monthlyPnl } from '../lib/monthlyPnl'
+import { filterByRange, type EquityRange } from '../lib/equityRange'
 import type { AccountOverview, AccountType, DailyPnl, EquityPoint, MonthlyGoal, SymbolBreakdown, Trade, WeekdayPnl } from '../types/domain'
 
 const ACCOUNT_LABEL: Record<AccountType, string> = { live: 'Live Account Statistik', propfirm: 'Prop Account Statistik' }
@@ -31,6 +33,7 @@ export function StatistikPage({ account }: { account: AccountType }) {
   const [goal, setGoal] = useState<MonthlyGoal | null>(null)
   const [loading, setLoading] = useState(true)
   const [equityMode, setEquityMode] = useState<EquityMode>('pnl')
+  const [equityRange, setEquityRange] = useState<EquityRange>('all')
 
   useEffect(() => {
     setLoading(true)
@@ -100,10 +103,13 @@ export function StatistikPage({ account }: { account: AccountType }) {
 
           <div className="section-header">
             <h2 className="section-title">Equity-Kurve</h2>
-            <EquityModeToggle value={equityMode} onChange={setEquityMode} />
+            <div className="section-header-controls">
+              <EquityModeToggle value={equityMode} onChange={setEquityMode} />
+              <EquityRangeToggle value={equityRange} onChange={setEquityRange} />
+            </div>
           </div>
           <div className="card">
-            <EquityChart points={equity} mode={equityMode} />
+            <EquityChart points={filterByRange(equity, equityRange)} mode={equityMode} />
           </div>
 
           <h2 className="section-title">Kalender</h2>

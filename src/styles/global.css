@@ -432,6 +432,24 @@
   background: rgba(255, 255, 255, 0.14);
 }
 
+.section-header-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  min-width: 0;
+}
+
+.segmented-control-scroll {
+  max-width: 100%;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.segmented-control-scroll::-webkit-scrollbar { display: none; }
+
+.segmented-control-scroll .segmented-control { flex-shrink: 0; }
+
 .recent-trade-row {
   display: grid;
   grid-template-columns: 71px minmax(0, 1fr) 63px 84px;

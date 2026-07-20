@@ -7,6 +7,7 @@ import { StatBox } from '../components/ui/StatBox'
 import { EmptyState } from '../components/ui/EmptyState'
 import { EquityChart, type EquityMode } from '../components/ui/EquityChart'
 import { EquityModeToggle } from '../components/ui/EquityModeToggle'
+import { EquityRangeToggle } from '../components/ui/EquityRangeToggle'
 import { GoalProgress } from '../components/ui/GoalProgress'
 import { MonthCalendar } from '../components/ui/MonthCalendar'
 import { TradeForm } from '../components/trades/TradeForm'
@@ -14,6 +15,7 @@ import { Modal } from '../components/ui/Modal'
 import { DailyNotesSection } from '../components/notes/DailyNotesSection'
 import { fmtEuro, fmtPct, pnlClass, fmtDate } from '../lib/format'
 import { monthlyPnl } from '../lib/monthlyPnl'
+import { filterByRange, type EquityRange } from '../lib/equityRange'
 import type { AccountOverview, AccountType, DailyPnl, EquityPoint, MonthlyGoal, OverviewSummary, Trade, TradeInput } from '../types/domain'
 
 const ACCOUNT_LABEL: Record<string, string> = { live: 'Live', propfirm: 'Propfirm' }
@@ -43,6 +45,7 @@ export function StartseitePage() {
   const [goals, setGoals] = useState<Record<AccountType, MonthlyGoal | null>>({ live: null, propfirm: null })
   const [loading, setLoading] = useState(true)
   const [equityMode, setEquityMode] = useState<EquityMode>('pnl')
+  const [equityRange, setEquityRange] = useState<EquityRange>('all')
   const [showForm, setShowForm] = useState(false)
 
   async function load() {
@@ -125,16 +128,19 @@ export function StartseitePage() {
 
       <div className="section-header">
         <h2 className="section-title">Equity-Kurven</h2>
-        <EquityModeToggle value={equityMode} onChange={setEquityMode} />
+        <div className="section-header-controls">
+          <EquityModeToggle value={equityMode} onChange={setEquityMode} />
+          <EquityRangeToggle value={equityRange} onChange={setEquityRange} />
+        </div>
       </div>
       <div className="equity-grid">
         <div className="card">
           <div className="equity-chart-title">Live</div>
-          <EquityChart points={liveEquity} compact mode={equityMode} />
+          <EquityChart points={filterByRange(liveEquity, equityRange)} compact mode={equityMode} />
         </div>
         <div className="card">
           <div className="equity-chart-title">Propfirm</div>
-          <EquityChart points={propEquity} compact mode={equityMode} />
+          <EquityChart points={filterByRange(propEquity, equityRange)} compact mode={equityMode} />
         </div>
       </div>
 
