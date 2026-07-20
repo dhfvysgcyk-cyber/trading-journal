@@ -391,7 +391,7 @@
 
 .recent-trade-row {
   display: grid;
-  grid-template-columns: auto 1fr auto auto;
+  grid-template-columns: auto 1fr 90px auto;
   gap: 0.75rem;
   align-items: center;
   padding: 0.5rem 0;
@@ -616,6 +616,10 @@
 
 .chart-box-sm {
   height: 120px;
+}
+
+.chart-box canvas {
+  filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.3));
 }
 
 .equity-grid {

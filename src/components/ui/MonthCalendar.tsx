@@ -10,6 +10,7 @@ const MONTH_LABELS = [
   'Januar', 'Februar', 'März', 'April', 'Mai', 'Juni',
   'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember',
 ]
+const ACCOUNT_LABEL: Record<AccountType, string> = { live: 'Live', propfirm: 'Propfirm' }
 
 function cellClass(pnl: number | undefined): string {
   if (pnl === undefined) return 'month-cell-empty'
@@ -18,7 +19,7 @@ function cellClass(pnl: number | undefined): string {
   return 'month-cell-flat'
 }
 
-export function MonthCalendar({ data, account }: { data: DailyPnl[]; account: AccountType }) {
+export function MonthCalendar({ data, account }: { data: DailyPnl[]; account?: AccountType }) {
   const [cursor, setCursor] = useState(() => {
     const d = new Date()
     d.setDate(1)
@@ -82,7 +83,10 @@ export function MonthCalendar({ data, account }: { data: DailyPnl[]; account: Ac
             <div className="detail-list">
               {dayTrades.map((t) => (
                 <div key={t.id} className="detail-row">
-                  <span className="detail-label">{t.symbol ?? '–'} ({t.direction ?? '–'}, {t.result ?? '–'})</span>
+                  <span className="detail-label">
+                    {!account && <span className={`account-badge account-badge-${t.account}`}>{ACCOUNT_LABEL[t.account]}</span>}
+                    {t.symbol ?? '–'} ({t.direction ?? '–'}, {t.result ?? '–'})
+                  </span>
                   <span className={pnlClass(t.pnl)}>{fmtEuro(t.pnl)}</span>
                 </div>
               ))}

@@ -8,6 +8,7 @@ import { EmptyState } from '../components/ui/EmptyState'
 import { EquityChart, type EquityMode } from '../components/ui/EquityChart'
 import { EquityModeToggle } from '../components/ui/EquityModeToggle'
 import { GoalProgress } from '../components/ui/GoalProgress'
+import { MonthCalendar } from '../components/ui/MonthCalendar'
 import { TradeForm } from '../components/trades/TradeForm'
 import { Modal } from '../components/ui/Modal'
 import { DailyNotesSection } from '../components/notes/DailyNotesSection'
@@ -16,6 +17,20 @@ import { monthlyPnl } from '../lib/monthlyPnl'
 import type { AccountOverview, AccountType, DailyPnl, EquityPoint, MonthlyGoal, OverviewSummary, Trade, TradeInput } from '../types/domain'
 
 const ACCOUNT_LABEL: Record<string, string> = { live: 'Live', propfirm: 'Propfirm' }
+
+function mergeDailyPnl(a: DailyPnl[], b: DailyPnl[]): DailyPnl[] {
+  const byDate = new Map<string, DailyPnl>()
+  for (const d of [...a, ...b]) {
+    const existing = byDate.get(d.trade_date)
+    if (existing) {
+      existing.pnl += d.pnl
+      existing.trade_count += d.trade_count
+    } else {
+      byDate.set(d.trade_date, { ...d })
+    }
+  }
+  return Array.from(byDate.values())
+}
 
 export function StartseitePage() {
   const [summary, setSummary] = useState<OverviewSummary | null>(null)
@@ -121,6 +136,11 @@ export function StartseitePage() {
           <div className="equity-chart-title">Propfirm</div>
           <EquityChart points={propEquity} compact mode={equityMode} />
         </div>
+      </div>
+
+      <h2 className="section-title">Kalender</h2>
+      <div className="card">
+        <MonthCalendar data={mergeDailyPnl(liveDaily, propDaily)} />
       </div>
 
       <h2 className="section-title">Letzte Trades</h2>
