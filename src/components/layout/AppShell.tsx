@@ -1,6 +1,7 @@
 import { NavLink, Outlet } from 'react-router-dom'
 import { useAuth } from '../../lib/auth'
 import { DiamondIcon, GearIcon, HomeIcon, JournalIcon } from '../ui/icons'
+import { TopBlurOverlay } from './TopBlurOverlay'
 
 const STARTSEITE_ITEM = { to: '/', label: 'Startseite', icon: '⌂' }
 const JOURNAL_ITEM = { to: '/journal', label: 'Journal', icon: '☰' }
@@ -26,6 +27,7 @@ export function AppShell() {
 
   return (
     <div className="app-shell">
+      <TopBlurOverlay />
       <nav className="side-nav">
         <div className="brand">
           <img src={`${import.meta.env.BASE_URL}icons/icon-192.png`} alt="" className="brand-logo" />

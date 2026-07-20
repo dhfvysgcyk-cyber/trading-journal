@@ -221,6 +221,49 @@
 
 .logout-btn { margin-top: auto; }
 
+/* --- Fading blur behind the iOS status bar --- */
+.top-blur-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: calc(env(safe-area-inset-top, 0px) + 70px);
+  pointer-events: none;
+  z-index: 5;
+}
+
+.top-blur-overlay::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(10, 10, 10, 0.5), transparent);
+}
+
+.top-blur-layer {
+  position: absolute;
+  inset: 0;
+  -webkit-backdrop-filter: blur(var(--blur, 4px));
+  backdrop-filter: blur(var(--blur, 4px));
+}
+
+.top-blur-layer-1 {
+  --blur: 3px;
+  -webkit-mask-image: linear-gradient(to bottom, black 0%, black 35%, transparent 60%);
+  mask-image: linear-gradient(to bottom, black 0%, black 35%, transparent 60%);
+}
+
+.top-blur-layer-2 {
+  --blur: 8px;
+  -webkit-mask-image: linear-gradient(to bottom, black 0%, black 20%, transparent 42%);
+  mask-image: linear-gradient(to bottom, black 0%, black 20%, transparent 42%);
+}
+
+.top-blur-layer-3 {
+  --blur: 16px;
+  -webkit-mask-image: linear-gradient(to bottom, black 0%, black 8%, transparent 25%);
+  mask-image: linear-gradient(to bottom, black 0%, black 8%, transparent 25%);
+}
+
 /* --- Bottom nav (mobile) --- */
 .bottom-nav {
   position: fixed;
